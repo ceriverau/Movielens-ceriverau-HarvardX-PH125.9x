@@ -2,6 +2,40 @@
 title: "Data Set Building"
 output: html_document
 ---
+# MovieLens Introduction
+
+# The MovieLens dataset, compiled by GroupLens Research, forms the basis of this study. Our objective is to ascertain whether we can forecast movie ratings based on user preferences and the age of a film. Using the MovieLens dataset and employing penalized least squares, the subsequent R script computes the Root Mean Square Error (RMSE) utilizing user ratings, movieId, and the movie's age.
+
+# The MovieLens dataset encompasses a substantial 10,000,054 entries, featuring 10,677 unique movies, 797 diverse genres, and an active user base of 69,878.
+
+# The analytical process entailed the following steps:
+# - Introduction of a 'movie age' variable, enhancing the dataset.
+# - Utilization of graphical representations to scrutinize movies, users, and their corresponding ratings, aiming to discern underlying patterns or insights.
+# - In-depth exploration of genres to evaluate their potential as predictive indicators for ratings.
+# - Delving into the Coefficient of Determination (R-Squared) to deepen our understanding of variable relationships.
+# - Graphical exploration of the linear correlation coefficient (r-value) for further insights.
+# - Computation of RMSE based on movieId, userId, and the age of the movie.
+
+# Following this comprehensive exploration, which encompassed both visual representations and RMSE calculations, we concluded that the most robust predictors for ratings were movieId and userId. Interestingly, the age of the movie had a negligible impact on the RMSE.
+
+# Ultimately, our final RMSE stands at an impressive 0.8252.
+
+# To facilitate this analysis, a range of libraries were employed. Notably, certain exploration avenues that yielded no substantial insights were omitted from the script.
+
+# Download the Data
+
+# Define a temporary file path for downloading
+dl <- tempfile()
+
+# Use the download.file function to fetch the MovieLens dataset
+download.file("http://files.grouplens.org/datasets/movielens/ml-10m.zip", dl)
+
+# Read the ratings data from the downloaded file
+ratings <- read.table(
+  text = gsub("::", "\t", readLines(unzip(dl, "ml-10M100K/ratings.dat"))),
+  col.names = c("userId", "movieId", "rating", "timestamp")
+)
+
 
 ```{r}
 # Build the data set
