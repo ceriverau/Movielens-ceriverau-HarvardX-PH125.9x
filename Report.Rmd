@@ -1,0 +1,33 @@
+---
+title: "Data Set Building"
+output: html_document
+---
+
+```{r}
+# Build the data set
+movies <- str_split_fixed(readLines(unzip(dl, "ml-10M100K/movies.dat")), "\\::", 3)
+colnames(movies) <- c("movieId", "title", "genres")
+movies <- as.data.frame(movies) %>% 
+           mutate(movieId = as.numeric(levels(movieId))[movieId],
+                  title = as.character(title),
+                  genres = as.character(genres))
+
+# Explore the size of the data set
+movielens <- left_join(ratings, movies, by = "movieId")
+nrow(movielens)
+## [1] 10000054
+
+n_distinct(movielens$movieId)
+## [1] 10677
+
+n_distinct(movielens$genres)
+## [1] 797
+
+n_distinct(movielens$userId)
+## [1] 69878
+
+# Validation set will be 10% of the MovieLens data
+set.seed(1)
+test_index <- createDataPartition(y = movielens$rating, times = 1, p = 0.1, list = FALSE)
+edx <- movielens[-test_index,]
+temp <- movielens[test_index,]
